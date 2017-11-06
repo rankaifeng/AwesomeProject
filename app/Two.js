@@ -12,7 +12,7 @@ import {
     Image,
     FlatList, TouchableHighlight, TouchableOpacity,
 } from 'react-native';
-import HttpUtil from "../app/HttpUtil";
+import {NativeModules} from 'react-native';
 
 // noinspection JSAnnotator
 export default class Two extends Component<{}> {
@@ -28,6 +28,9 @@ export default class Two extends Component<{}> {
                 <View style={{width: null, height: 200, alignItems: 'center'}}>
                     <Text style={{fontSize: 30, color: 'red'}}>这是上一个页面传过来的值</Text>
                 </View>
+                <TouchableOpacity
+                    onPress={() => NativeModules
+                        .ToastExample.intentActivity("com.awesomeproject.NewActivity", title)}>
                     <View style={{width: null, height: 200, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{fontSize: 30, color: 'red'}}>
                             {title}
@@ -36,6 +39,8 @@ export default class Two extends Component<{}> {
                             点击可以跳转到原生页面
                         </Text>
                     </View>
+                </TouchableOpacity>
+
             </View>
         );
     }
