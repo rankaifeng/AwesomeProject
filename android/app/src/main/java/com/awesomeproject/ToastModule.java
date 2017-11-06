@@ -2,8 +2,10 @@ package com.awesomeproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -25,6 +27,12 @@ public class ToastModule extends ReactContextBaseJavaModule {
         Toast.makeText(getReactApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * 跳转到新的activity
+     *
+     * @param activity
+     * @param msg
+     */
     @ReactMethod
     public void intentActivity(String activity, String msg) {
         Activity currentActivity = getCurrentActivity();
@@ -40,5 +48,19 @@ public class ToastModule extends ReactContextBaseJavaModule {
             }
         }
 
+    }
+
+    @ReactMethod
+    public void gotoJs(Callback successBack, Callback errorBack) {
+        try {
+            Activity currentActivity = getCurrentActivity();
+            String name = currentActivity.getIntent().getStringExtra("name");
+            if (TextUtils.isEmpty(name)) {
+                name = "没有数据";
+            }
+            successBack.invoke(name);
+        } catch (Exception e) {
+            errorBack.invoke(e.getMessage());
+        }
     }
 }

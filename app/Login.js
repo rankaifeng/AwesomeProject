@@ -13,6 +13,7 @@ import {
     TextInput,
     Text, ToastAndroid, TouchableOpacity
 } from 'react-native';
+import {NativeModules} from 'react-native';
 //noinspection JSAnnotator
 export default class Login extends Component<{}> {
     static navigationOptions = {
@@ -30,6 +31,14 @@ export default class Login extends Component<{}> {
         this.state = {userName: '', userPwd: ''};
     }
 
+    componentDidMount() {
+        NativeModules.ToastExample.gotoJs((msg) => {
+                alert(msg)
+            },
+            (result) => {
+                alert('JS界面:错误信息为:' + result);
+            })
+    }
     /**
      * 登陆
      */

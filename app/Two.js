@@ -23,10 +23,15 @@ export default class Two extends Component<{}> {
 
     render() {
         let title = this.props.navigation.state.params.title;
+        let name = this.state.name;
+        if (name == "") {
+            name = "默认原生是没有传过来数据的";
+        }
         return (
             <View style={styles.top1}>
                 <View style={{width: null, height: 200, alignItems: 'center'}}>
                     <Text style={{fontSize: 30, color: 'red'}}>这是上一个页面传过来的值</Text>
+                    <Text style={{fontSize: 30, color: 'red'}}>{name}</Text>
                 </View>
                 <TouchableOpacity
                     onPress={() => NativeModules
