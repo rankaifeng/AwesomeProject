@@ -1,17 +1,26 @@
 package com.awesomeproject;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class MainActivity extends ReactActivity {
+    public static MainActivity activity;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = this;
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
      */
+
     @Override
     protected String getMainComponentName() {
         return "AwesomeProject";
@@ -19,8 +28,10 @@ public class MainActivity extends ReactActivity {
 
     //构建一个阻塞的单一数据的队列
     public static ArrayBlockingQueue<String> mQueue = new ArrayBlockingQueue<String>(1);
+
     /**
      * 打开 带返回的Activity
+     *
      * @param requestCode
      * @param resultCode
      * @param data

@@ -32,12 +32,12 @@ export default class Login extends Component<{}> {
     }
 
     componentDidMount() {
-        NativeModules.ToastExample.gotoJs((msg) => {
-                alert(msg)
-            },
-            (result) => {
-                alert('JS界面:错误信息为:' + result);
-            })
+        // NativeModules.ToastExample.gotoJs((msg) => {
+        //         alert(msg)
+        //     },
+        //     (result) => {
+        //         alert('JS界面:错误信息为:' + result);
+        //     })
     }
     /**
      * 登陆

@@ -24,7 +24,7 @@ public class NewActivity extends Activity {
                 Intent mIntent = new Intent(NewActivity.this, MainActivity.class);
                 mIntent.putExtra("name", "我是来自Android的消息");
                 startActivity(mIntent);
-                NewActivity.this.finish();
+//                NewActivity.this.finish();
             }
         });
     }

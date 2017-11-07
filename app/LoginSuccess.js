@@ -10,23 +10,28 @@ import {
     View,
     Text,
     Image,
-    FlatList, TouchableHighlight,
+    TextInput,
+    FlatList, TouchableHighlight, TouchableOpacity,
 } from 'react-native';
+import {NativeModules} from 'react-native';
 import HttpUtil from "../app/HttpUtil";
 // noinspection JSAnnotator
 export default class LoginSuccess extends Component<{}> {
     constructor() {
         super();
-        let userDates = [];
-        HttpUtil.get('cook/query?key=1d2e476415bafcd9bf227323b5be850e&menu=西红柿&rn=10&pn=3')
+        this.state = {data: [], searchFood: ''};
+        this.httpRequest("西红柿", 1);
+    }
+
+    httpRequest(menu, pn) {
+        NativeModules.ToastExample.showProgress("正在加载中......");
+        HttpUtil.get('cook/query?key=1d2e476415bafcd9bf227323b5be850e&menu=' + menu + '&rn=10&pn=' + pn)
             .then((responseJson) => {
-                for (var i = 0; i < responseJson.result.data.length; i++) {
-                    userDates.push(responseJson.result.data[i]);
-                }
+                NativeModules.ToastExample.hideProgress();
+                this.setState({data: responseJson.result.data});
             }, (json) => {
                 alert(json);
             })
-        this.state = {data: userDates};
     }
 
     static navigationOptions = {
@@ -36,6 +41,32 @@ export default class LoginSuccess extends Component<{}> {
     render() {
         return (
             <View style={styles.top1}>
+                <View style={styles.search}>
+                    <View style={{
+                        justifyContent: 'center', flex: 1
+                    }}>
+                        <TextInput placeholder={'请输入你要搜索的菜名如：(萝卜)'}
+                                   underlineColorAndroid='transparent'
+                                   onChangeText={(text) => this.setState({searchFood: text})}
+                                   style={{
+                                       fontSize: 20, color: 'white', borderWidth: 1,
+                                       borderColor: 'white', borderRadius: 20, marginLeft: 20,
+                                       height: 55
+                                   }}
+                                   placeholderTextColor={'white'}
+                        />
+                    </View>
+                    <TouchableOpacity onPress={this.searchFoods.bind(this)}
+                                      style={{
+                                          justifyContent: 'center', width: 80
+                                      }}>
+                        <View>
+                            <Image source={require('../image/search.png')}
+                                   style={{width: 40, height: 40, marginLeft: 10}}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}
@@ -63,39 +94,54 @@ export default class LoginSuccess extends Component<{}> {
         )
     }
 
+    searchFoods() {
+        let searchFood = this.state.searchFood;
+        if (searchFood == "") {
+            this.httpRequest("西红柿", 1);
+            return;
+        }
+        this.httpRequest(searchFood, 1);
+    }
+
     onItemClick(item) {
         const {navigate} = this.props.navigation;
         navigate('Two', {title: item.title})
-        // alert(item.title);
     }
 }
 
-const styles = StyleSheet.create({
-    top1: {
-        flex: 1
-    },
-    top: {
-        marginTop: 5,
-        height: 200,
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: '#585858'
-    },
-    imgStyle: {
-        width: 200,
-        height: 199,
-    },
-    textStyle: {
-        fontSize: 30,
-        color: 'red',
-    },
-    left: {
-        width: 200,
-        height: 200,
-    },
-    right: {
-        flex: 1,
-        justifyContent: 'center',
-        marginLeft: 8
-    },
-});
+const
+    styles = StyleSheet.create({
+        search: {
+            height: 100,
+            flexWrap: 'nowrap',
+            flexDirection: 'row',
+        },
+        top1: {
+            flex: 1,
+            backgroundColor: '#bfbfbf'
+        },
+        top: {
+            marginTop: 5,
+            height: 200,
+            flexDirection: 'row',
+            borderTopWidth: 1,
+            borderTopColor: '#585858'
+        },
+        imgStyle: {
+            width: 200,
+            height: 199,
+        },
+        textStyle: {
+            fontSize: 30,
+            color: 'red',
+        },
+        left: {
+            width: 200,
+            height: 200,
+        },
+        right: {
+            flex: 1,
+            justifyContent: 'center',
+            marginLeft: 8
+        },
+    });

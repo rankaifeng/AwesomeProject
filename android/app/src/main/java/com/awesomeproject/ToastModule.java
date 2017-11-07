@@ -1,6 +1,7 @@
 package com.awesomeproject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 public class ToastModule extends ReactContextBaseJavaModule {
+    Dialog progressDlg;
 
     public ToastModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -61,6 +63,27 @@ public class ToastModule extends ReactContextBaseJavaModule {
             successBack.invoke(name);
         } catch (Exception e) {
             errorBack.invoke(e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    /**
+     * 显示加载进度框
+     *
+     * @param msg
+     */
+    public void showProgress(String msg) {
+        MainActivity activity = MainActivity.activity;
+        progressDlg = MyDiglog.createLoadingDialog(activity, msg, false);
+    }
+
+    @ReactMethod
+    /**
+     * 隐藏进度框
+     */
+    public void hideProgress() {
+        if (progressDlg != null && progressDlg.isShowing()) {
+            progressDlg.dismiss();
         }
     }
 }
