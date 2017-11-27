@@ -76,12 +76,13 @@ export default class Login extends Component<{}> {
                                    style={styles.input} secureTextEntry={true} placeholderTextColor={'white'}
                                    onChangeText={(userPwd) => this.setState({userPwd})}/>
                     </View>
-                    <View style={styles.btnLogin}>
-                        <TouchableOpacity style={styles.loginText} onPress={this.onLogin.bind(this)}>
-                            <Text style={styles.login_text}>登陆</Text>
-                        </TouchableOpacity>
+                </View>
 
-                    </View>
+                <View style={styles.btnLogin}>
+                    <TouchableOpacity style={styles.loginText} onPress={this.onLogin.bind(this)}>
+                        <Text style={styles.login_text}>登111陆</Text>
+                    </TouchableOpacity>
+
                 </View>
             </ImageBackground>
         );
@@ -91,19 +92,19 @@ export default class Login extends Component<{}> {
 const styles = StyleSheet.create({
     top: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'column'
     },
     image: {
         flex: 1,
     },
     login: {
         width: null,
-        height: 300,
     },
 
     publicWidth: {
+        height: 70,
         width: null,
-        height: 75,
         marginLeft: 20,
         marginRight: 20,
         borderBottomWidth: 1,
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     btnLogin: {
-        flex: 1,
+        marginTop: 30,
         justifyContent: 'center',
     },
     loginText: {

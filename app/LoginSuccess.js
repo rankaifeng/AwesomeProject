@@ -21,6 +21,8 @@ import Swipe from 'react-native-swiper';
 export default class LoginSuccess extends Component<{}> {
     constructor() {
         super();
+        console.disableYellowBox = true;
+        console.warn('YellowBox is disabled.');
         this.state = {data: [], searchFood: '', images: []};
         this.httpRequest("排骨", 3);
     }
@@ -57,7 +59,7 @@ export default class LoginSuccess extends Component<{}> {
                     <View style={{
                         justifyContent: 'center', flex: 1
                     }}>
-                        <TextInput placeholder={'请输入你要搜索的菜名如：(萝卜)'}
+                        <TextInput placeholder={'请输1入你要搜索的菜名如：(萝卜)'}
                                    underlineColorAndroid='transparent'
                                    onChangeText={(text) => this.setState({searchFood: text})}
                                    style={{
@@ -164,7 +166,7 @@ export default class LoginSuccess extends Component<{}> {
     searchFoods() {
         let searchFood = this.state.searchFood;
         if (searchFood == "") {
-            this.httpRequest("西红柿", 1);
+            this.httpRequest("排骨", 3);
             return;
         }
         this.httpRequest(searchFood, 1);
